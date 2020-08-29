@@ -27,7 +27,7 @@ pub fn print_server_usage_bw(nblisteners: f32, bitrate: f32, nbdays: f32, nbhour
 }
 
 #[test]
-fn bwserver() {
+fn tests_bw_server() {
     assert_eq!(15625.0, bw_server(250.0, 64.0));
     assert_eq!(15820.313, bw_server(250.0, 64.8));
     assert_eq!(
@@ -43,7 +43,7 @@ fn bwserver() {
 }
 
 #[test]
-fn usagebw() {
+fn tests_server_usage_bw() {
     assert_eq!(164794.92, server_usage_bw(250.0, 64.0, 1.0, 24.0));
     assert_eq!(166854.88, server_usage_bw(250.0, 64.8, 1.0, 24.0));
     assert_eq!(print!("Number of listeners: 250 \nBitrate (kb/s): 64 \nNumber of days: 1 \nNumber of hours by days: 24 \n Bandwidth used (GiB): 164794.92"), print_server_usage_bw(250.0, 64.0, 1.0, 24.0));
