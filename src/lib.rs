@@ -1,9 +1,9 @@
 fn bw_server(nblisteners: f32, bitrate: f32) -> f32 {
-    nblisteners * bitrate * 1000.0 / 1024.0
+    125.0 * nblisteners * bitrate / 128.0
 }
 
 fn server_usage_bw(nblisteners: f32, bitrate: f32, nbdays: f32, nbhours: f32) -> f32 {
-    nbdays * nbhours * 3600.0 * bitrate * 1000.0 / 8.0 * nblisteners / 1024.0 / 1024.0
+    28125.0 * nbdays * nbhours * bitrate * nblisteners / 65536.0
 }
 
 pub fn print_bw_server(nblisteners: f32, bitrate: f32) {
