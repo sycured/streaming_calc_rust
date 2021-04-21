@@ -1,7 +1,4 @@
-#[macro_use]
-extern crate clap;
-
-use clap::{crate_authors, crate_version, App, AppSettings, Arg};
+use clap::{crate_authors, crate_version, value_t, App, AppSettings, Arg};
 
 use lib::{print_bw_server, print_server_usage_bw};
 
