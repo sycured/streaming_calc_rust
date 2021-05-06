@@ -1,6 +1,6 @@
 use clap::{crate_authors, crate_version, value_t, App, AppSettings, Arg};
 
-use lib::{print_bw_server, print_server_usage_bw};
+use lib::{bw_server, server_usage_bw};
 
 mod lib;
 
@@ -52,11 +52,11 @@ fn main() {
         .get_matches();
 
     match app.subcommand() {
-        ("bwserver", Some(bwserver_args)) => print_bw_server(
+        ("bwserver", Some(bwserver_args)) => bw_server(
             value_t!(bwserver_args, "nblisteners", f32).unwrap(),
             value_t!(bwserver_args, "bitrate", f32).unwrap(),
         ),
-        ("usagebw", Some(usagebw_args)) => print_server_usage_bw(
+        ("usagebw", Some(usagebw_args)) => server_usage_bw(
             value_t!(usagebw_args, "nblisteners", f32).unwrap(),
             value_t!(usagebw_args, "bitrate", f32).unwrap(),
             value_t!(usagebw_args, "nbdays", f32).unwrap(),
