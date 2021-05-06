@@ -3,11 +3,9 @@ pub fn bw_server(nblisteners: f32, bitrate: f32) {
         (125.0 * nblisteners * bitrate / 128.0).to_string()
     };
 
-    print!(
-        "Number of listeners: {0} \nBitrate (kb/s): {1} \nServer bandwidth (Mib/s): {2}",
-        nblisteners,
-        bitrate,
-        compute(nblisteners, bitrate)
+    format!(
+        "Number of listeners: {nblisteners} \nBitrate (kb/s): {bitrate} \nServer bandwidth (Mib/s): {x}",
+        nblisteners=nblisteners, bitrate=bitrate, x=compute(nblisteners, bitrate)
     );
 }
 
@@ -16,13 +14,9 @@ pub fn server_usage_bw(nblisteners: f32, bitrate: f32, nbdays: f32, nbhours: f32
         (28125.0 * nbdays * nbhours * bitrate * nblisteners / 65536.0).to_string()
     };
 
-    print!(
-        "Number of listeners: {0} \nBitrate (kb/s): {1} \nNumber of days: {2} \nNumber of hours by days: {3} \nBandwidth used (GiB): {4}",
-           nblisteners,
-           bitrate,
-           nbdays,
-           nbhours,
-           compute(nblisteners, bitrate, nbdays, nbhours)
+    format!(
+        "Number of listeners: {nblisteners} \nBitrate (kb/s): {bitrate} \nNumber of days: {nbdays} \nNumber of hours by days: {nbhours} \nBandwidth used (GiB): {x}",
+        nblisteners=nblisteners, bitrate=bitrate, nbdays=nbdays, nbhours=nbhours, x=compute(nblisteners, bitrate, nbdays, nbhours)
     );
 }
 
