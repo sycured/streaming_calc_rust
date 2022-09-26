@@ -1,67 +1,52 @@
-use clap::{crate_authors, crate_version, value_t, App, AppSettings, Arg};
+use clap::{crate_authors, crate_version, Arg, Command};
 
-use lib::{bw_server, server_usage_bw};
-
-mod lib;
-
+use streaming_calc_rust::{bw_server, server_usage_bw};
 fn main() {
-    let app = App::new("Streaming_calc_rust")
+    let app = Command::new("Streaming_calc_rust")
         .version(crate_version!())
         .author(crate_authors!())
-        .setting(AppSettings::SubcommandRequiredElseHelp)
+        .arg_required_else_help(true)
         .subcommand(
-            App::new("bwserver")
+            Command::new("bwserver")
                 .about("Determine necessary server bandwidth")
-                .setting(AppSettings::ArgRequiredElseHelp)
+                .arg_required_else_help(true)
                 .arg(
-                    Arg::with_name("nblisteners")
+                    Arg::new("nblisteners")
                         .help("number of listeners")
-                        .empty_values(false),
+                        .required(true),
                 )
-                .arg(
-                    Arg::with_name("bitrate")
-                        .help("bitrate in kb/s")
-                        .empty_values(false),
-                ),
+                .arg(Arg::new("bitrate").help("bitrate in kb/s").required(true)),
         )
         .subcommand(
-            App::new("usagebw")
+            Command::new("usagebw")
                 .about("Determine the amount of data used for the streaming")
-                .setting(AppSettings::ArgRequiredElseHelp)
+                .arg_required_else_help(true)
                 .arg(
-                    Arg::with_name("nblisteners")
+                    Arg::new("nblisteners")
                         .help("number of listeners")
-                        .empty_values(false),
+                        .required(true),
                 )
+                .arg(Arg::new("bitrate").help("bitrate in kb/s").required(true))
+                .arg(Arg::new("nbdays").help("number of days").required(true))
                 .arg(
-                    Arg::with_name("bitrate")
-                        .help("bitrate in kb/s")
-                        .empty_values(false),
-                )
-                .arg(
-                    Arg::with_name("nbdays")
-                        .help("number of days")
-                        .empty_values(false),
-                )
-                .arg(
-                    Arg::with_name("nbhours")
+                    Arg::new("nbhours")
                         .help("number of hours by days")
-                        .empty_values(false),
+                        .required(true),
                 ),
         )
         .get_matches();
 
     match app.subcommand() {
-        ("bwserver", Some(bwserver_args)) => bw_server(
-            value_t!(bwserver_args, "nblisteners", f32).unwrap(),
-            value_t!(bwserver_args, "bitrate", f32).unwrap(),
+        Some(("bwserver", bwserver_args)) => bw_server(
+            bwserver_args.get_one("nblisteners").unwrap(),
+            bwserver_args.get_one("bitrate").unwrap(),
         ),
-        ("usagebw", Some(usagebw_args)) => server_usage_bw(
-            value_t!(usagebw_args, "nblisteners", f32).unwrap(),
-            value_t!(usagebw_args, "bitrate", f32).unwrap(),
-            value_t!(usagebw_args, "nbdays", f32).unwrap(),
-            value_t!(usagebw_args, "nbhours", f32).unwrap(),
+        Some(("usagebw", usagebw_args)) => server_usage_bw(
+            usagebw_args.get_one("nblisteners").unwrap(),
+            usagebw_args.get_one("bitrate").unwrap(),
+            usagebw_args.get_one("nbdays").unwrap(),
+            usagebw_args.get_one("nbhours").unwrap(),
         ),
-        _ => println!("{}", app.usage()),
+        _ => unreachable!(),
     }
 }
