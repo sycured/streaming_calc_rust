@@ -38,14 +38,14 @@ fn main() {
 
     match app.subcommand() {
         Some(("bwserver", bwserver_args)) => bw_server(
-            bwserver_args.get_one("nblisteners").unwrap(),
-            bwserver_args.get_one("bitrate").unwrap(),
+            *bwserver_args.get_one("nblisteners").unwrap(),
+            *bwserver_args.get_one("bitrate").unwrap(),
         ),
         Some(("usagebw", usagebw_args)) => server_usage_bw(
-            usagebw_args.get_one("nblisteners").unwrap(),
-            usagebw_args.get_one("bitrate").unwrap(),
-            usagebw_args.get_one("nbdays").unwrap(),
-            usagebw_args.get_one("nbhours").unwrap(),
+            *usagebw_args.get_one("nblisteners").unwrap(),
+            *usagebw_args.get_one("bitrate").unwrap(),
+            *usagebw_args.get_one("nbdays").unwrap(),
+            *usagebw_args.get_one("nbhours").unwrap(),
         ),
         _ => unreachable!(),
     }
